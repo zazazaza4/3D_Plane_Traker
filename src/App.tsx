@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Stars } from "@react-three/drei";
 
 import { IMarker } from "./@types";
-import { ControlPanel } from "./components";
+import { ControlPanel, Earth } from "./components";
 
 function App() {
   const [activeMarkerId, setActiveMarkerId] = useState<string>("me");
@@ -30,7 +30,9 @@ function App() {
           width: "100vw",
         }}
       >
+        <pointLight position={[10, 5, 10]} />
         <Stars />
+        <Earth />
       </Canvas>
       <div className="controls">
         <ControlPanel
