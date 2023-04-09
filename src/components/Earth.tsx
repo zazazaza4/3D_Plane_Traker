@@ -7,10 +7,11 @@ Source: https://sketchfab.com/3d-models/earth-f7a76c63ff1846afb2d606e5c8369c15
 Title: Earth
 */
 
-import React, { useRef } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
 import THREE from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { Plane } from "./Plane";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -25,13 +26,20 @@ export function Earth(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/earth.gltf") as GLTFResult;
 
   return (
-    <group {...props} dispose={null}>
-      <mesh
-        geometry={nodes.Object_4.geometry}
-        material={materials["Scene_-_Root"]}
-        scale={1.13}
-      />
-    </group>
+    <>
+      <group scale={2} {...props} dispose={null}>
+        <mesh
+          geometry={nodes.Object_4.geometry}
+          material={materials["Scene_-_Root"]}
+          scale={1.13}
+        />
+      </group>
+      <Plane />
+      <mesh position={[0, 0, 4]}>
+        <sphereGeometry args={[0.01]} />
+        <meshStandardMaterial color="orange" />
+      </mesh>
+    </>
   );
 }
 
