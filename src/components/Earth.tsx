@@ -34,7 +34,7 @@ export function Earth(props: JSX.IntrinsicElements["group"]) {
           scale={1.13}
         />
       </group>
-      <Plane />
+      <Plane id={"aa01be"} />
       <mesh position={[0, 0, 4]}>
         <sphereGeometry args={[0.01]} />
         <meshStandardMaterial color="orange" />

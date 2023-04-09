@@ -9,8 +9,9 @@ Title: Airplane
 
 import React from "react";
 import { useGLTF } from "@react-three/drei";
-import THREE from "three";
+import THREE, { Color } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { idText } from "typescript";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -30,15 +31,24 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Plane(props: JSX.IntrinsicElements["group"]) {
+interface PlaneProps {
+  id: string;
+}
+
+export function Plane({ id }: PlaneProps) {
   const { nodes, materials } = useGLTF("/plane.gltf") as GLTFResult;
+
+  materials["Material.001"].color = {
+    r: parseInt(String(id).slice(0, 2), 16) / 256,
+    g: parseInt(String(id).slice(2, 4), 16) / 256,
+    b: parseInt(String(id).slice(4, 6), 16) / 256,
+  } as Color;
 
   return (
     <group
       scale={0.01}
       position={[0, 0, 4]}
       rotation={[Math.PI / 2, 0, 0]}
-      {...props}
       dispose={null}
     >
       <group name="Sketchfab_Scene">

@@ -13,6 +13,13 @@ function App() {
       id: "me",
       lat: 0,
       log: 0,
+      type: "human",
+    },
+    {
+      id: "aa01be",
+      lat: 5,
+      log: 5,
+      type: "plane",
     },
   ];
   const activeMarker: IMarker | undefined = markers.find(
