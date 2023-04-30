@@ -28,7 +28,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({
         <span>|</span>
         <span>Lat: {activeMarker.lat.toFixed(2)}</span>
         <span>|</span>
-        <span>Log: {activeMarker.log.toFixed(2)}</span>
+        <span>Log: {activeMarker.lon.toFixed(2)}</span>
       </div>
       <div>
         <button

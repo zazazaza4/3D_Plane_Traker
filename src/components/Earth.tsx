@@ -14,7 +14,7 @@ import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { Plane } from "./Plane";
 import { useSpring, a } from "@react-spring/three";
 import { IMarker } from "../@types";
-import { LOG_OFFSET } from "../consts";
+import { LON_OFFSET } from "../consts";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -33,15 +33,15 @@ export function Earth({ marker }: EarthProps) {
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const { nodes, materials } = useGLTF("/earth.gltf") as GLTFResult;
 
-  const { lat, log } = marker;
+  const { lat, lon } = marker;
 
   const latRot = (lat * Math.PI) / 180;
-  const logRot = -((log * Math.PI) / 180) + LOG_OFFSET;
+  const lonRot = -((lon * Math.PI) / 180) + LON_OFFSET;
 
   const { scale, markerPosition, rotation } = useSpring({
     scale: isZoom ? 4 : 2,
     markerPosition: isZoom ? [0, 0, 4.5] : [0, 0, 2.5],
-    rotation: [latRot, logRot, 0],
+    rotation: [latRot, lonRot, 0],
   });
 
   return (
