@@ -1,6 +1,6 @@
 export interface IMarker {
   id: string;
   lat: number;
-  log: number;
+  lon: number;
   type?: "plane" | "human";
 }
