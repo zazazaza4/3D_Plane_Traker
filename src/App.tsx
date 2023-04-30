@@ -17,8 +17,8 @@ function App() {
     },
     {
       id: "aa01be",
-      lat: 5,
-      log: 5,
+      lat: 50.00156,
+      log: 36.231537,
       type: "plane",
     },
   ];
@@ -39,7 +39,7 @@ function App() {
       >
         <pointLight position={[10, 5, 10]} />
         <Stars />
-        <Earth />
+        <Earth marker={activeMarker!} />
       </Canvas>
       <div className="controls">
         <ControlPanel

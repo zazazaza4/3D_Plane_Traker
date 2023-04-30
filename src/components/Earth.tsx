@@ -13,6 +13,8 @@ import THREE, { Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { Plane } from "./Plane";
 import { useSpring, a } from "@react-spring/three";
+import { IMarker } from "../@types";
+import { LOG_OFFSET } from "../consts";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,24 +25,34 @@ type GLTFResult = GLTF & {
   };
 };
 
-export function Earth(props: JSX.IntrinsicElements["group"]) {
+interface EarthProps {
+  marker: IMarker;
+}
+
+export function Earth({ marker }: EarthProps) {
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const { nodes, materials } = useGLTF("/earth.gltf") as GLTFResult;
 
-  const { scale, markerPosition } = useSpring({
+  const { lat, log } = marker;
+
+  const latRot = (lat * Math.PI) / 180;
+  const logRot = -((log * Math.PI) / 180) + LOG_OFFSET;
+
+  const { scale, markerPosition, rotation } = useSpring({
     scale: isZoom ? 4 : 2,
     markerPosition: isZoom ? [0, 0, 4.5] : [0, 0, 2.5],
+    rotation: [latRot, logRot, 0],
   });
 
   return (
     <>
       <a.group
         scale={scale}
+        rotation={rotation as any}
         dispose={null}
         onClick={() => {
           setIsZoom((prev) => !prev);
         }}
-        {...props}
       >
         <mesh
           geometry={nodes.Object_4.geometry}
