@@ -9,7 +9,7 @@ Title: Earth
 
 import React, { useState } from "react";
 import { useGLTF } from "@react-three/drei";
-import THREE, { Vector3 } from "three";
+import THREE from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { Plane } from "./Plane";
 import { useSpring, a } from "@react-spring/three";
@@ -60,11 +60,14 @@ export function Earth({ marker }: EarthProps) {
           scale={1.13}
         />
       </a.group>
-      <Plane id={"ab41ee"} position={markerPosition} />
-      <a.mesh position={markerPosition as any}>
-        <sphereGeometry args={[0.01]} />
-        <meshStandardMaterial color="orange" />
-      </a.mesh>
+      {marker.type === "plane" ? (
+        <Plane id={"ab41ee"} position={markerPosition} />
+      ) : (
+        <a.mesh position={markerPosition as any}>
+          <sphereGeometry args={[0.01]} />
+          <meshStandardMaterial color="orange" />
+        </a.mesh>
+      )}
     </>
   );
 }
