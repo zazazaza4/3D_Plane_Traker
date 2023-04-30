@@ -7,11 +7,12 @@ Source: https://sketchfab.com/3d-models/earth-f7a76c63ff1846afb2d606e5c8369c15
 Title: Earth
 */
 
-import React from "react";
+import React, { useState } from "react";
 import { useGLTF } from "@react-three/drei";
-import THREE from "three";
+import THREE, { Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { Plane } from "./Plane";
+import { useSpring, a } from "@react-spring/three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -23,22 +24,35 @@ type GLTFResult = GLTF & {
 };
 
 export function Earth(props: JSX.IntrinsicElements["group"]) {
+  const [isZoom, setIsZoom] = useState<boolean>(false);
   const { nodes, materials } = useGLTF("/earth.gltf") as GLTFResult;
+
+  const { scale, markerPosition } = useSpring({
+    scale: isZoom ? 4 : 2,
+    markerPosition: isZoom ? [0, 0, 4.5] : [0, 0, 2.5],
+  });
 
   return (
     <>
-      <group scale={2} {...props} dispose={null}>
+      <a.group
+        scale={scale}
+        dispose={null}
+        onClick={() => {
+          setIsZoom((prev) => !prev);
+        }}
+        {...props}
+      >
         <mesh
           geometry={nodes.Object_4.geometry}
           material={materials["Scene_-_Root"]}
           scale={1.13}
         />
-      </group>
-      <Plane id={"aa01be"} />
-      <mesh position={[0, 0, 4]}>
+      </a.group>
+      <Plane id={"ab41ee"} position={markerPosition} />
+      <a.mesh position={markerPosition as any}>
         <sphereGeometry args={[0.01]} />
         <meshStandardMaterial color="orange" />
-      </mesh>
+      </a.mesh>
     </>
   );
 }

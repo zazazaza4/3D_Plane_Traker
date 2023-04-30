@@ -9,9 +9,9 @@ Title: Airplane
 
 import React from "react";
 import { useGLTF } from "@react-three/drei";
-import THREE, { Color } from "three";
+import THREE, { Color, Vector3 } from "three";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { idText } from "typescript";
+import { a, SpringValue } from "@react-spring/three";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -33,9 +33,10 @@ type GLTFResult = GLTF & {
 
 interface PlaneProps {
   id: string;
+  position: SpringValue<number[]>;
 }
 
-export function Plane({ id }: PlaneProps) {
+export function Plane({ id, position }: PlaneProps) {
   const { nodes, materials } = useGLTF("/plane.gltf") as GLTFResult;
 
   materials["Material.001"].color = {
@@ -45,9 +46,9 @@ export function Plane({ id }: PlaneProps) {
   } as Color;
 
   return (
-    <group
+    <a.group
       scale={0.01}
-      position={[0, 0, 4]}
+      position={position as any}
       rotation={[Math.PI / 2, 0, 0]}
       dispose={null}
     >
@@ -107,7 +108,7 @@ export function Plane({ id }: PlaneProps) {
           </group>
         </group>
       </group>
-    </group>
+    </a.group>
   );
 }
 
