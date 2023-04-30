@@ -1,1 +1,1 @@
-export const LOG_OFFSET = -Math.PI / 2;
+export const LON_OFFSET = -Math.PI / 2;
