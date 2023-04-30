@@ -24,7 +24,7 @@ export const ControlPanel: FC<ControlPanelProps> = ({
       <div>
         <span>{`Marker: ${activeMarkerIndex + 1}/${markers.length}`}</span>
         <span>|</span>
-        <span>Type: {activeMarker.type === "plane" ? "" : ""}</span>
+        <span>Type: {activeMarker.type === "plane" ? "🛩" : "🕺🏼"}</span>
         <span>|</span>
         <span>Lat: {activeMarker.lat.toFixed(2)}</span>
         <span>|</span>
