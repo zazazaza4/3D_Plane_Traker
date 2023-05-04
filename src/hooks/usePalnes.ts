@@ -1,3 +1,4 @@
+import { calcRotation } from "./../utils";
 import { useCallback, useState } from "react";
 import { FlightData } from "../@types";
 import { samplePlanes } from "../samplePlanes";
@@ -35,9 +36,18 @@ export function usePlanes(location: any) {
             lon: prevLon,
             rotation: prevRotation,
           } = currPlane;
-          const rotation = lat !== prevLat || lon !== prevLon;
+          const rotation =
+            lat !== prevLat || lon !== prevLon
+              ? calcRotation(lat, lon, prevLat, prevLon)
+              : prevRotation;
+
+          return {
+            ...plane,
+            rotation,
+          };
         });
-      return newPlanes;
+      const newState = [...newPlanes, ...existingPlanes];
+      return newState;
     });
 
     if (samplePlanes[fetchCount]) {
