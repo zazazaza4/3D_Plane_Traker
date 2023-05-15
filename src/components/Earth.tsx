@@ -33,7 +33,7 @@ export function Earth({ marker }: EarthProps) {
   const [isZoom, setIsZoom] = useState<boolean>(false);
   const { nodes, materials } = useGLTF("/earth.gltf") as GLTFResult;
 
-  const { lat, lon } = marker;
+  const { lat, lon, id } = marker;
 
   const latRot = (lat * Math.PI) / 180;
   const lonRot = -((lon * Math.PI) / 180) + LON_OFFSET;
@@ -61,7 +61,7 @@ export function Earth({ marker }: EarthProps) {
         />
       </a.group>
       {marker.type === "plane" ? (
-        <Plane id={"ab41ee"} position={markerPosition} />
+        <Plane id={id} position={markerPosition} />
       ) : (
         <a.mesh position={markerPosition as any}>
           <sphereGeometry args={[0.01]} />
