@@ -4,11 +4,13 @@ import { Stars } from "@react-three/drei";
 
 import { ICords, IMarker } from "./@types";
 import { ControlPanel, Earth } from "./components";
-import { useGeolocation } from "./hooks";
+import { useGeolocation, usePlanes } from "./hooks";
+import { DEFAULT_LOCATION } from "./consts";
 
 function App() {
-  const userLocation: null | ICords = useGeolocation();
-  const [activeMarkerId, setActiveMarkerId] = useState<string>("aa01be");
+  const userLocation: ICords | null = useGeolocation();
+  const [activeMarkerId, setActiveMarkerId] = useState<string>("me");
+  const planes = usePlanes(userLocation || DEFAULT_LOCATION);
 
   const markers: IMarker[] = userLocation
     ? [
@@ -17,21 +19,9 @@ function App() {
           type: "human",
           ...userLocation,
         },
-        {
-          id: "aa01be",
-          lat: 50.00156,
-          lon: 36.231537,
-          type: "plane",
-        },
+        ...planes,
       ]
-    : [
-        {
-          id: "aa01be",
-          lat: 50.00156,
-          lon: 36.231537,
-          type: "plane",
-        },
-      ];
+    : [...planes];
   const activeMarker: IMarker | undefined = markers.find(
     (marker) => marker.id === activeMarkerId
   );
@@ -49,7 +39,7 @@ function App() {
       >
         <pointLight position={[10, 5, 10]} />
         <Stars />
-        <Earth marker={activeMarker!} />
+        <Earth marker={activeMarker || DEFAULT_LOCATION} />
       </Canvas>
       <div className="controls">
         <ControlPanel
