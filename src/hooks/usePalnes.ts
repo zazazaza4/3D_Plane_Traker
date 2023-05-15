@@ -1,10 +1,10 @@
 import { calcDistance, calcRotation } from "./../utils";
-import { useCallback, useState } from "react";
-import { FlightData } from "../@types";
+import { useCallback, useEffect, useState } from "react";
 import { samplePlanes } from "../samplePlanes";
+import { ICords } from "../@types";
 
-export function usePlanes(location: any) {
-  const [planes, setPlanes] = useState<any[]>();
+export function usePlanes(location: ICords) {
+  const [planes, setPlanes] = useState<any[]>([]);
   const [fetchCount, setFetchCount] = useState<number>(0);
 
   const fetchPlanes = useCallback(() => {
@@ -54,11 +54,14 @@ export function usePlanes(location: any) {
       });
     });
 
-    if (samplePlanes[fetchCount]) {
-      setPlanes(samplePlanes[fetchCount]);
-    }
     setFetchCount((prev) => prev + 1);
-  }, []);
+  }, [fetchCount, setFetchCount, setPlanes, location]);
+
+  useEffect(() => {
+    if (location) {
+      fetchPlanes();
+    }
+  }, [location, fetchPlanes]);
 
   return planes;
 }
